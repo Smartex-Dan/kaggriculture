@@ -1,0 +1,2 @@
+run_id,step,op,args,position,crop,money_before,money_after,tile_before,tile_after,shed_before_qty,shed_after_qty,outcome
+,0,PASS,(),"(4, 4)",,3000.0,2920.0,,,,,OBSERVED

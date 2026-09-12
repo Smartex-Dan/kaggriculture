@@ -1,0 +1,19 @@
+# Core
+numpy>=1.26
+pandas>=2.2
+matplotlib>=3.8
+
+# Kaggle environment tooling
+kaggle
+kaggle-environments
+
+# Testing
+pytest>=8.0
+
+# Error Tracking
+sentry-sdk
+
+# Add later, only when needed:
+# torch
+# gymnasium
+# stable-baselines3

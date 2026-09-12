@@ -1,0 +1,86 @@
+{
+  "agent_statelessness": {
+    "confidence": "CONFIRMED",
+    "evidence_count": 7,
+    "note": "discovered via failed harvest-toggle test - 652/652 calls were HARVEST, 0 PASS, despite explicit toggle logic",
+    "value": "self.* instance attributes on StrategicPlanner do NOT persist across turns - kaggle_environments exec()'s agent.py fresh each turn. Any cross-turn state must be derived from obs fields (e.g. state.step) or read/written to disk."
+  },
+  "animal_mechanics": {
+    "confidence": "UNKNOWN",
+    "evidence_count": 8,
+    "note": "deferred - V0.5 priority is crop/harvest mechanics",
+    "value": null
+  },
+  "harvest.v04_result": {
+    "confidence": "CONFIRMED",
+    "evidence_count": 8,
+    "note": "every V0.4 HARVEST call produced zero shed/tile change",
+    "value": "0/548 attempts succeeded"
+  },
+  "harvest_action_effect": {
+    "confidence": "PROBABLE",
+    "evidence_count": 6,
+    "note": "cross-episode comparison: old run called HARVEST on 100% of day-tick turns (8/8 ticks fired), new run called PASS on 100% of the same day-tick turns (8/8 still fired) - switching the action didn't change the outcome",
+    "value": "no observed effect on shed contents"
+  },
+  "harvest_timing_hypothesis": {
+    "confidence": "HYPOTHESIS",
+    "evidence_count": 4,
+    "note": "every historical HARVEST success landed on a step that is a multiple of 24 (72,120,168,216,240,264,288...) - one in-game day",
+    "value": "HARVEST likely only succeeds when state.hour == 0 (once per in-game day)"
+  },
+  "market_price_dynamics": {
+    "confidence": "UNKNOWN",
+    "evidence_count": 8,
+    "note": "deferred - basic price logging comes next pass",
+    "value": null
+  },
+  "melon.lifespan_turns": {
+    "confidence": "CONFIRMED",
+    "evidence_count": 8,
+    "note": "max_lifespan_step = (planted_day+13)*24 in every observed MELON tile",
+    "value": 312
+  },
+  "seed_cost.CARROT": {
+    "confidence": "CONFIRMED",
+    "evidence_count": 3,
+    "note": "derived from seed-count/money delta",
+    "value": 20.0
+  },
+  "seed_cost.MELON": {
+    "confidence": "CONFIRMED",
+    "evidence_count": 89,
+    "note": "derived from seed-count/money delta",
+    "value": 80
+  },
+  "seed_cost.STRAWBERRY": {
+    "confidence": "CONFIRMED",
+    "evidence_count": 5,
+    "note": "derived from seed-count/money delta",
+    "value": 100.0
+  },
+  "seed_cost.TOMATO": {
+    "confidence": "CONFIRMED",
+    "evidence_count": 4,
+    "note": "derived from seed-count/money delta",
+    "value": 50.0
+  },
+  "seed_cost.WHEAT": {
+    "confidence": "CONFIRMED",
+    "evidence_count": 3,
+    "note": "derived from seed-count/money delta",
+    "value": 10.0
+  },
+  "weed_rule": {
+    "confidence": "CONFIRMED",
+    "evidence_count": 8,
+    "note": "V0.4: consecutive_unwatered 0->1->WEED pattern observed 20+ times",
+    "value": "2 consecutive missed waterings converts a crop tile to WEED"
+  },
+  "yield_production_mechanic": {
+    "confidence": "HYPOTHESIS",
+    "evidence_count": 1,
+    "note": "CONTRADICTS prior value 'crops produce 1 yield_units automatically every 24 steps (once/day) once mature, transferred to shed regardless of action taken that turn' - re-verify. clean all-PASS episode: 0/0 HARVEST calls, 0 shed increases, both MELON plants fully decayed to WEED unharvested, profit -$210",
+    "value": "REQUIRES a HARVEST call - NOT automatic (correcting prior hypothesis)"
+  }
+}
