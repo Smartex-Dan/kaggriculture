@@ -118,3 +118,11 @@ knowledge.record("harvest_timing_hypothesis", "HARVEST likely only succeeds when
 
 knowledge.record("harvest_mechanic", "HARVEST succeeds only at hour==0 with yield_units>0; clears the tile IMMEDIATELY (replantable next turn), but credits the yield to shed only at the START of the NEXT in-game day (24-step delay)",
                   CONFIRMED, "confirmed across two episodes: traced step-by-step shed transfer, and a 25-tile episode produced 10 real harvests + 5 melons sold for real revenue")
+
+knowledge.record("harvest_scan_bug_v1", "SUPERSEDED - the hour==0 gate around the whole harvestable-tile SEARCH (not just the HARVEST call) meant multi-step journeys to distant tiles were abandoned the instant hour advanced past 0. Only the fallback center tile (4,4) was ever reachable, since it required zero travel",
+                  CONFIRMED, "fresh single-episode log: 10/10 harvests all at tile (4,4), zero harvests at any of the other ~25 planted tiles despite many reaching yield_units>=1")
+
+knowledge.record("melon_single_tile_cycle_economics", "one farmer running a single MELON tile through repeated plant->water->harvest cycles nets ~$1,270-1,290 profit per ~240-step (10-day) cycle ($1,354-1,371 revenue minus $80 seed cost); 3 full cycles completed in a 720-turn episode for $2,405 total profit vs a -$646 loss when spreading 26 seeds across the whole farm with one farmer",
+                  CONFIRMED, "clean episode: 3 PLANT calls (all tile (4,4)), 29 HARVEST calls, 2 sales ($1,354 + $1,371), final money $5,405")
+knowledge.record("single_farmer_land_ceiling", "one farmer can reliably sustain roughly 1 actively-cycling crop tile at a time - spreading planting across many tiles causes most to decay to WEED before being reached, net-negative vs concentrating on one tile",
+                  PROBABLE, "26-tile spread run: -$646 profit. 1-tile-focus run: +$2,405 profit. Same code, same crop, same seed cost - only the planting-spread pattern differed")

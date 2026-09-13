@@ -8,3 +8,7 @@ experiment_id,version,opponent,n_games,win_rate,avg_bank,median_bank,notes
 ,V0.4-alpha,random,1,,2274.0,2274.0,"profit=-726 (informational, not win condition)"
 ,V0.4-alpha,random,1,,2354.0,2354.0,"profit=-646 (informational, not win condition)"
 ,V0.4-alpha,random,1,,2354.0,2354.0,"profit=-646 (informational, not win condition)"
+,V0.4-alpha,random,1,,2274.0,2274.0,"profit=-726 (informational, not win condition)"
+,V0.4-alpha,random,1,,2274.0,2274.0,"profit=-726 (informational, not win condition)"
+,V0.4-alpha,random,1,,2274.0,2274.0,"profit=-726 (informational, not win condition)"
+,V0.4-alpha,random,1,,5405.0,5405.0,"profit=2405 (informational, not win condition)"

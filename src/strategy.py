@@ -31,24 +31,40 @@ class StrategicPlanner:
         diff_and_log(state)
         farm = state.my_farm
         log_market(state)
+
+        # HIRE EXPERIMENT: attempt exactly once per day until we have at
+        # least one hand, to learn the real cost/args/hands-schema
+        # without spamming invalid attempts every turn.
+        if not state.my_farm.get("hands") and state.my_farm.get("hires_today", 0) == 0:
+            return self._farmer_action("PASS", market=[["HIRE"]])
+        # Once we have hands, keep them PASS-ing (harmless placeholder)
+        # until we've learned their actual data structure from diagnostics
+
+        n_hands = len(state.my_farm.get("hands", []))
+        hand_actions = [["PASS"]] * n_hands if n_hands else None
         pos = tuple(state.my_position)
 
-        # Harvest check FIRST, before thirst.
-        harvestable = []
-        if state.hour == 0:
-            harvestable = find_harvestable_crop_tiles(farm)
-
+            # Search + travel happen on EVERY turn regardless of hour - only
+        # the actual HARVEST call is gated to hour==0. Otherwise a tile
+        # more than 1 step away gets one nudge and is abandoned the
+        # instant hour ticks past 0 (confirmed bug: only the tile at
+        # our hour-0 fallback position, (4,4), was ever reachable).
+        harvestable = find_harvestable_crop_tiles(farm)
         if harvestable:
             hx, hy, _c = min(
                 harvestable,
                 key=lambda t: abs(t[0] - pos[0]) + abs(t[1] - pos[1]),
             )
             if pos == (hx, hy):
-                telemetry.crops_harvested += 1
-                return self._farmer_action("HARVEST")
-            d = direction_toward(pos, (hx, hy))
-            if d:
-                return self._farmer_action(d)
+                if state.hour == 0:
+                    telemetry.crops_harvested += 1
+                    return self._farmer_action("HARVEST")
+                # arrived early - fall through to watering/other tasks
+                # while waiting for hour to cycle back to 0
+            else:
+                d = direction_toward(pos, (hx, hy))
+                if d:
+                    return self._farmer_action(d)
 
         thirsty = find_thirsty_crop_tiles(farm)
         if thirsty:
@@ -99,6 +115,5 @@ class StrategicPlanner:
         costs = {c: _seed_cost(c) for c in CROPS}
         return best_crop(state.prices, costs, CROPS)
 
-    def _farmer_action(self, op: str, *args, market: Optional[list] = None) -> dict:
-        return {"farmer": [op, *args], "hands": [], "market": market or []}
-
+    def _farmer_action(self, op: str, *args, market: Optional[list] = None, hand_actions: Optional[list] = None) -> dict:
+        return {"farmer": [op, *args], "hands": hand_actions or [], "market": market or []}

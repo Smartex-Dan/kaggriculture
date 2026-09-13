@@ -9,16 +9,35 @@ constants by hand.
 from src.knowledge import knowledge, PROBABLE, CONFIRMED
 from typing import Any, Dict
 
-_previous: Dict[str, Any] = {"tiles": None, "shed": None, "seeds": None, "money": None}
+_previous: Dict[str, Any] = {"tiles": None, "shed": None, "seeds": None, "money": None, "hands": None, "hires_today": None}
 
 
 def diff_and_log(state) -> None:
     farm = state.my_farm
+
+    hands = state.my_farm.get("hands", [])
+    hires_today = state.my_farm.get("hires_today")
+    if _previous["hands"] is not None and hands != _previous["hands"]:
+        print(f"[diag] hands changed: {_previous['hands']!r} -> {hands!r}  (step={state.step})")
+    if _previous["hires_today"] is not None and hires_today != _previous["hires_today"]:
+        print(f"[diag] hires_today changed: {_previous['hires_today']} -> {hires_today}  (step={state.step})")
+    _previous["hands"] = list(hands) if hands else []
+    _previous["hires_today"] = hires_today
+        
     tiles = farm["tiles"]
     shed = state.my_shed
     seeds = state.my_seeds
     money = state.my_money
     money_delta = money - _previous["money"] if _previous["money"] is not None else None
+
+    hands = state.my_farm.get("hands", [])
+    hires_today = state.my_farm.get("hires_today")
+    if _previous["hands"] is not None and hands != _previous["hands"]:
+        print(f"[diag] hands changed: {_previous['hands']!r} -> {hands!r}  (step={state.step})")
+    if _previous["hires_today"] is not None and hires_today != _previous["hires_today"]:
+        print(f"[diag] hires_today changed: {_previous['hires_today']} -> {hires_today}  (step={state.step})")
+    _previous["hands"] = list(hands) if hands else []
+    _previous["hires_today"] = hires_today
 
     if _previous["tiles"] is not None:
         for y, row in enumerate(tiles):
