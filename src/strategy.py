@@ -58,30 +58,30 @@ class StrategicPlanner:
             if pos == (hx, hy):
                 if state.hour == 0:
                     telemetry.crops_harvested += 1
-                    return self._farmer_action("HARVEST")
+                    return self._farmer_action("HARVEST", hand_actions=hand_actions)
                 # arrived early - fall through to watering/other tasks
                 # while waiting for hour to cycle back to 0
             else:
                 d = direction_toward(pos, (hx, hy))
                 if d:
-                    return self._farmer_action(d)
+                    return self._farmer_action(d, hand_actions=hand_actions)
 
         thirsty = find_thirsty_crop_tiles(farm)
         if thirsty:
             tx, ty, _c = min(thirsty, key=lambda t: abs(t[0] - pos[0]) + abs(t[1] - pos[1]))
             if pos == (tx, ty):
                 telemetry.water_actions += 1
-                return self._farmer_action("WATER")
+                return self._farmer_action("WATER", hand_actions=hand_actions)
             d = direction_toward(pos, (tx, ty))
             if d:
-                return self._farmer_action(d)
+                return self._farmer_action(d, hand_actions=hand_actions)
 
         sellable = sellable_produce(state.my_shed)
         if sellable:
             resource = max(sellable, key=lambda r: state.prices.get(r, 0))
             qty = sellable[resource]
             telemetry.record_sale(resource, qty)
-            return self._farmer_action("PASS", market=[["SELL", resource, qty]])
+            return self._farmer_action("PASS", market=[["SELL", resource, qty]], hand_actions=hand_actions)
 
         empty_tiles = find_empty_tiles(farm)
         plantable_crops = [c for c in CROPS if has_seeds(state.my_seeds, c)]
@@ -91,24 +91,24 @@ class StrategicPlanner:
             target = min(empty_tiles, key=lambda t: abs(t[0] - pos[0]) + abs(t[1] - pos[1]))
             if pos == target:
                 telemetry.record_plant(crop)
-                return self._farmer_action("PLANT", crop)
+                return self._farmer_action("PLANT", crop, hand_actions=hand_actions)
             d = direction_toward(pos, target)
             if d:
-                return self._farmer_action(d)
+                return self._farmer_action(d, hand_actions=hand_actions)
 
         if empty_tiles and not plantable_crops:
             crop = _crop_needing_cost_discovery(state) or self._best_buyable_crop(state)
             if crop and can_afford(state.my_money, _seed_cost(crop)):
                 telemetry.seeds_bought += 1
-                return self._farmer_action("PASS", market=[["BUY_SEED", crop, 1]])
+                return self._farmer_action("PASS", market=[["BUY_SEED", crop, 1]], hand_actions=hand_actions)
 
         center = (4, 4)
         if pos != center:
             d = direction_toward(pos, center)
             if d:
-                return self._farmer_action(d)
+                return self._farmer_action(d, hand_actions=hand_actions)
 
-        return self._farmer_action("PASS")
+        return self._farmer_action("PASS", hand_actions=hand_actions)
 
     def _best_buyable_crop(self, state) -> str:
         from src.economy import best_crop
