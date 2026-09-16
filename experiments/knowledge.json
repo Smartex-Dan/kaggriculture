@@ -1,31 +1,43 @@
 {
   "agent_statelessness": {
     "confidence": "CONFIRMED",
-    "evidence_count": 11,
+    "evidence_count": 15,
     "note": "discovered via failed harvest-toggle test - 652/652 calls were HARVEST, 0 PASS, despite explicit toggle logic",
     "value": "self.* instance attributes on StrategicPlanner do NOT persist across turns - kaggle_environments exec()'s agent.py fresh each turn. Any cross-turn state must be derived from obs fields (e.g. state.step) or read/written to disk."
   },
   "animal_mechanics": {
     "confidence": "UNKNOWN",
-    "evidence_count": 12,
+    "evidence_count": 16,
     "note": "deferred - V0.5 priority is crop/harvest mechanics",
     "value": null
   },
+  "hand_lifecycle": {
+    "confidence": "CONFIRMED",
+    "evidence_count": 3,
+    "note": "hands list observed to empty exactly at every hour==0 tick, then repopulate at [[5,4]] again the following turn after a fresh HIRE call",
+    "value": "A hired hand vanishes entirely at every day boundary (hands list empties) and a NEW hand spawns at the same fixed position [5,4] if re-hired - hands do NOT persist or retain position/progress across days"
+  },
+  "hand_spawn_position": {
+    "confidence": "HYPOTHESIS",
+    "evidence_count": 3,
+    "note": "hand spawn coordinate is x=5, one past the last confirmed-unlocked column",
+    "value": "[5, 4] - possibly on/past the boundary of the unlocked NW quadrant (NW appears to span x=0-4, y=0-4 based on earlier board renders) - unconfirmed whether hand can act there or needs to move into unlocked land first"
+  },
   "harvest.v04_result": {
     "confidence": "CONFIRMED",
-    "evidence_count": 12,
+    "evidence_count": 16,
     "note": "every V0.4 HARVEST call produced zero shed/tile change",
     "value": "0/548 attempts succeeded"
   },
   "harvest_action_effect": {
     "confidence": "PROBABLE",
-    "evidence_count": 10,
+    "evidence_count": 14,
     "note": "cross-episode comparison: old run called HARVEST on 100% of day-tick turns (8/8 ticks fired), new run called PASS on 100% of the same day-tick turns (8/8 still fired) - switching the action didn't change the outcome",
     "value": "no observed effect on shed contents"
   },
   "harvest_mechanic": {
     "confidence": "CONFIRMED",
-    "evidence_count": 4,
+    "evidence_count": 8,
     "note": "confirmed across two episodes: traced step-by-step shed transfer, and a 25-tile episode produced 10 real harvests + 5 melons sold for real revenue",
     "value": "HARVEST succeeds only at hour==0 with yield_units>0; clears the tile IMMEDIATELY (replantable next turn), but credits the yield to shed only at the START of the NEXT in-game day (24-step delay)"
   },
@@ -37,21 +49,33 @@
   },
   "harvest_timing_hypothesis": {
     "confidence": "HYPOTHESIS",
-    "evidence_count": 8,
+    "evidence_count": 12,
     "note": "every historical HARVEST success landed on a step that is a multiple of 24 (72,120,168,216,240,264,288...) - one in-game day",
     "value": "HARVEST likely only succeeds when state.hour == 0 (once per in-game day)"
   },
+  "hire_cost_daily_first": {
+    "confidence": "CONFIRMED",
+    "evidence_count": 3,
+    "note": "8 consecutive daily hires (steps 1,25,49,73,97,121,145,169), every single one cost exactly $1",
+    "value": "First HIRE of each day costs exactly $1 - hires_today resets to 0 every day boundary (hour==0), so cost never escalates past the first Fibonacci tier as long as only one hand is hired per day"
+  },
   "market_price_dynamics": {
     "confidence": "UNKNOWN",
-    "evidence_count": 12,
+    "evidence_count": 16,
     "note": "deferred - basic price logging comes next pass",
     "value": null
   },
   "melon.lifespan_turns": {
     "confidence": "CONFIRMED",
-    "evidence_count": 12,
+    "evidence_count": 16,
     "note": "max_lifespan_step = (planted_day+13)*24 in every observed MELON tile",
     "value": 312
+  },
+  "melon_single_tile_cycle_economics": {
+    "confidence": "CONFIRMED",
+    "evidence_count": 4,
+    "note": "clean episode: 3 PLANT calls (all tile (4,4)), 29 HARVEST calls, 2 sales ($1,354 + $1,371), final money $5,405",
+    "value": "one farmer running a single MELON tile through repeated plant->water->harvest cycles nets ~$1,270-1,290 profit per ~240-step (10-day) cycle ($1,354-1,371 revenue minus $80 seed cost); 3 full cycles completed in a 720-turn episode for $2,405 total profit vs a -$646 loss when spreading 26 seeds across the whole farm with one farmer"
   },
   "seed_cost.CARROT": {
     "confidence": "CONFIRMED",
@@ -61,7 +85,7 @@
   },
   "seed_cost.MELON": {
     "confidence": "CONFIRMED",
-    "evidence_count": 175,
+    "evidence_count": 193,
     "note": "derived from seed-count/money delta",
     "value": 80
   },
@@ -83,9 +107,15 @@
     "note": "derived from seed-count/money delta",
     "value": 10.0
   },
+  "single_farmer_land_ceiling": {
+    "confidence": "PROBABLE",
+    "evidence_count": 4,
+    "note": "26-tile spread run: -$646 profit. 1-tile-focus run: +$2,405 profit. Same code, same crop, same seed cost - only the planting-spread pattern differed",
+    "value": "one farmer can reliably sustain roughly 1 actively-cycling crop tile at a time - spreading planting across many tiles causes most to decay to WEED before being reached, net-negative vs concentrating on one tile"
+  },
   "weed_rule": {
     "confidence": "CONFIRMED",
-    "evidence_count": 12,
+    "evidence_count": 16,
     "note": "V0.4: consecutive_unwatered 0->1->WEED pattern observed 20+ times",
     "value": "2 consecutive missed waterings converts a crop tile to WEED"
   },

@@ -123,3 +123,10 @@ knowledge.record("melon_single_tile_cycle_economics", "one farmer running a sing
                   CONFIRMED, "clean episode: 3 PLANT calls (all tile (4,4)), 29 HARVEST calls, 2 sales ($1,354 + $1,371), final money $5,405")
 knowledge.record("single_farmer_land_ceiling", "one farmer can reliably sustain roughly 1 actively-cycling crop tile at a time - spreading planting across many tiles causes most to decay to WEED before being reached, net-negative vs concentrating on one tile",
                   PROBABLE, "26-tile spread run: -$646 profit. 1-tile-focus run: +$2,405 profit. Same code, same crop, same seed cost - only the planting-spread pattern differed")
+
+knowledge.record("hire_cost_daily_first", "First HIRE of each day costs exactly $1 - hires_today resets to 0 every day boundary (hour==0), so cost never escalates past the first Fibonacci tier as long as only one hand is hired per day",
+                  CONFIRMED, "8 consecutive daily hires (steps 1,25,49,73,97,121,145,169), every single one cost exactly $1")
+knowledge.record("hand_lifecycle", "A hired hand vanishes entirely at every day boundary (hands list empties) and a NEW hand spawns at the same fixed position [5,4] if re-hired - hands do NOT persist or retain position/progress across days",
+                  CONFIRMED, "hands list observed to empty exactly at every hour==0 tick, then repopulate at [[5,4]] again the following turn after a fresh HIRE call")
+knowledge.record("hand_spawn_position", "[5, 4] - possibly on/past the boundary of the unlocked NW quadrant (NW appears to span x=0-4, y=0-4 based on earlier board renders) - unconfirmed whether hand can act there or needs to move into unlocked land first",
+                  HYPOTHESIS, "hand spawn coordinate is x=5, one past the last confirmed-unlocked column")
