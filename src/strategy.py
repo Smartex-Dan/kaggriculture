@@ -11,6 +11,7 @@ from src.diagnostics import diff_and_log
 from src.knowledge import knowledge, CONFIRMED
 from src.market_log import log_market
 
+_FIRST_YIELD_DAY = {"WHEAT": 2, "CARROT": 2, "TOMATO": 8, "STRAWBERRY": 10, "MELON": 10}
 _FALLBACK_SEED_COST = {"MELON": 80, "WHEAT": 10, "CARROT": 10, "TOMATO": 10, "STRAWBERRY": 10}
 
 
@@ -50,12 +51,14 @@ class StrategicPlanner:
 
         empty_tiles = find_empty_tiles(farm)
         plantable_crops = [c for c in CROPS if has_seeds(state.my_seeds, c)]
+
         if empty_tiles and not plantable_crops:
             crop = _crop_needing_cost_discovery(state) or self._best_buyable_crop(state)
             if crop and can_afford(state.my_money, _seed_cost(crop)):
-                qty = 2 if n_hands > 0 else 1
                 telemetry.seeds_bought += 1
-                market_orders.append(["BUY_SEED", crop, qty])
+                market_orders.append(["BUY_SEED", crop, 1])
+                if n_hands > 0 and can_afford(state.my_money, _seed_cost(crop) * 2):
+                    market_orders.append(["BUY_SEED", crop, 1])
 
         # --- HAND: plants a second tile (unchanged) ---
         hand_action = ["PASS"]
@@ -77,7 +80,8 @@ class StrategicPlanner:
         if harvestable:
             hx, hy, _c = min(harvestable, key=lambda t: abs(t[0]-pos[0]) + abs(t[1]-pos[1]))
             if pos == (hx, hy):
-                if state.hour == 0:
+                crop = _c["crop"]
+                if state.day - _c["planted_day"] >= _FIRST_YIELD_DAY.get(crop, 999):
                     telemetry.crops_harvested += 1
                     return self._farmer_action("HARVEST", market=market_orders, hand_actions=hand_actions)
             else:
