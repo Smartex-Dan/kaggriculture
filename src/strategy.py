@@ -76,14 +76,17 @@ class StrategicPlanner:
         hand_actions = [hand_action] * n_hands if n_hands else None
 
         # --- FARMER: physical action priority (unchanged) ---
-        harvestable = find_harvestable_crop_tiles(farm)
+        harvestable = [
+            (x, y, crop_info)
+            for x, y, crop_info in find_harvestable_crop_tiles(farm)
+            if state.day - crop_info.get("planted_day", state.day) >=
+            _FIRST_YIELD_DAY.get(crop_info.get("crop"), 999)
+        ]
         if harvestable:
             hx, hy, _c = min(harvestable, key=lambda t: abs(t[0]-pos[0]) + abs(t[1]-pos[1]))
             if pos == (hx, hy):
-                crop = _c["crop"]
-                if state.day - _c["planted_day"] >= _FIRST_YIELD_DAY.get(crop, 999):
-                    telemetry.crops_harvested += 1
-                    return self._farmer_action("HARVEST", market=market_orders, hand_actions=hand_actions)
+                telemetry.crops_harvested += 1
+                return self._farmer_action("HARVEST", market=market_orders, hand_actions=hand_actions)
             else:
                 d = direction_toward(pos, (hx, hy))
                 if d:
