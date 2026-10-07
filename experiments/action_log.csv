@@ -717,3 +717,78 @@ run_id,step,op,args,position,crop,money_before,money_after,tile_before,tile_afte
 ,715,EAST,(),"(1, 0)",MELON,15864.0,15864.0,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 20, 'watered_today': True, 'consecutive_unwatered': 0, 'yield_units': 5, 'max_lifespan_step': 792, 'fertilized_until_day': -1}","{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 20, 'watered_today': True, 'consecutive_unwatered': 0, 'yield_units': 5, 'max_lifespan_step': 792, 'fertilized_until_day': -1}",0,0,OBSERVED
 ,716,WEST,(),"(2, 0)",,15864.0,15864.0,{'kind': 'WEED'},{'kind': 'WEED'},,,OBSERVED
 ,717,EAST,(),"(1, 0)",MELON,15864.0,15864.0,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 20, 'watered_today': True, 'consecutive_unwatered': 0, 'yield_units': 5, 'max_lifespan_step': 792, 'fertilized_until_day': -1}","{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 20, 'watered_today': True, 'consecutive_unwatered': 0, 'yield_units': 5, 'max_lifespan_step': 792, 'fertilized_until_day': -1}",0,0,OBSERVED
+,0,PASS,(),"(4, 4)",,3000.0,2919.0,,,,,OBSERVED
+,1,NORTH,(),"(4, 4)",,2919.0,2918.0,,,,,OBSERVED
+,2,PLANT,"('MELON',)","(4, 3)",,2918.0,2916.0,,,,,NO_EFFECT
+,3,PLANT,"('MELON',)","(4, 3)",,2916.0,2916.0,,,,,NO_EFFECT
+,4,PLANT,"('MELON',)","(4, 3)",,2916.0,2916.0,,,,,NO_EFFECT
+,5,PLANT,"('MELON',)","(4, 3)",,2916.0,2916.0,,,,,NO_EFFECT
+,6,PLANT,"('MELON',)","(4, 3)",,2916.0,2916.0,,,,,NO_EFFECT
+,7,PLANT,"('MELON',)","(4, 3)",,2916.0,2916.0,,,,,NO_EFFECT
+,8,PLANT,"('MELON',)","(4, 3)",,2916.0,2916.0,,,,,NO_EFFECT
+,9,PLANT,"('MELON',)","(4, 3)",,2916.0,2916.0,,,,,NO_EFFECT
+,10,PLANT,"('MELON',)","(4, 3)",,2916.0,2916.0,,,,,NO_EFFECT
+,11,PLANT,"('MELON',)","(4, 3)",,2916.0,2916.0,,,,,NO_EFFECT
+,12,PLANT,"('MELON',)","(4, 3)",,2916.0,2916.0,,,,,NO_EFFECT
+,13,PLANT,"('MELON',)","(4, 3)",,2916.0,2916.0,,,,,NO_EFFECT
+,14,PLANT,"('MELON',)","(4, 3)",,2916.0,2916.0,,,,,NO_EFFECT
+,15,PLANT,"('MELON',)","(4, 3)",,2916.0,2916.0,,,,,NO_EFFECT
+,16,PLANT,"('MELON',)","(4, 3)",,2916.0,2916.0,,,,,NO_EFFECT
+,17,PLANT,"('MELON',)","(4, 3)",,2916.0,2916.0,,,,,NO_EFFECT
+,18,PLANT,"('MELON',)","(4, 3)",,2916.0,2916.0,,,,,NO_EFFECT
+,19,PLANT,"('MELON',)","(4, 3)",,2916.0,2916.0,,,,,NO_EFFECT
+,20,PLANT,"('MELON',)","(4, 3)",,2916.0,2916.0,,,,,NO_EFFECT
+,21,PLANT,"('MELON',)","(4, 3)",,2916.0,2916.0,,,,,NO_EFFECT
+,22,PLANT,"('MELON',)","(4, 3)",,2916.0,2916.0,,,,,NO_EFFECT
+,23,PLANT,"('MELON',)","(4, 3)",,2916.0,2916.0,,,,,NO_EFFECT
+,24,PLANT,"('MELON',)","(4, 4)",,2916.0,2915.0,,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 1, 'watered_today': False, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 336, 'fertilized_until_day': -1}",,,PLANTED
+,25,WATER,(),"(4, 4)",MELON,2915.0,2754.0,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 1, 'watered_today': False, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 336, 'fertilized_until_day': -1}","{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 1, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 336, 'fertilized_until_day': -1}",0,0,WATERED
+,26,NORTH,(),"(4, 4)",MELON,2754.0,2752.0,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 1, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 336, 'fertilized_until_day': -1}","{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 1, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 336, 'fertilized_until_day': -1}",0,0,OBSERVED
+,27,WEST,(),"(4, 3)",,2752.0,2752.0,,,,,OBSERVED
+,28,PLANT,"('MELON',)","(3, 3)",,2752.0,2752.0,,,,,NO_EFFECT
+,29,PLANT,"('MELON',)","(3, 3)",,2752.0,2752.0,,,,,NO_EFFECT
+,30,PLANT,"('MELON',)","(3, 3)",,2752.0,2752.0,,,,,NO_EFFECT
+,31,PLANT,"('MELON',)","(3, 3)",,2752.0,2752.0,,,,,NO_EFFECT
+,32,PLANT,"('MELON',)","(3, 3)",,2752.0,2752.0,,,,,NO_EFFECT
+,33,PLANT,"('MELON',)","(3, 3)",,2752.0,2752.0,,,,,NO_EFFECT
+,34,PLANT,"('MELON',)","(3, 3)",,2752.0,2752.0,,,,,NO_EFFECT
+,35,PLANT,"('MELON',)","(3, 3)",,2752.0,2752.0,,,,,NO_EFFECT
+,36,PLANT,"('MELON',)","(3, 3)",,2752.0,2752.0,,,,,NO_EFFECT
+,37,PLANT,"('MELON',)","(3, 3)",,2752.0,2752.0,,,,,NO_EFFECT
+,38,PLANT,"('MELON',)","(3, 3)",,2752.0,2752.0,,,,,NO_EFFECT
+,39,PLANT,"('MELON',)","(3, 3)",,2752.0,2752.0,,,,,NO_EFFECT
+,40,PLANT,"('MELON',)","(3, 3)",,2752.0,2752.0,,,,,NO_EFFECT
+,41,PLANT,"('MELON',)","(3, 3)",,2752.0,2752.0,,,,,NO_EFFECT
+,42,PLANT,"('MELON',)","(3, 3)",,2752.0,2752.0,,,,,NO_EFFECT
+,43,PLANT,"('MELON',)","(3, 3)",,2752.0,2752.0,,,,,NO_EFFECT
+,44,PLANT,"('MELON',)","(3, 3)",,2752.0,2752.0,,,,,NO_EFFECT
+,45,PLANT,"('MELON',)","(3, 3)",,2752.0,2752.0,,,,,NO_EFFECT
+,46,PLANT,"('MELON',)","(3, 3)",,2752.0,2752.0,,,,,NO_EFFECT
+,47,PLANT,"('MELON',)","(3, 3)",,2752.0,2752.0,,,,,NO_EFFECT
+,48,WATER,(),"(4, 4)",MELON,2752.0,2751.0,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 1, 'watered_today': False, 'consecutive_unwatered': 0, 'yield_units': 1, 'max_lifespan_step': 336, 'fertilized_until_day': -1}","{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 1, 'watered_today': True, 'consecutive_unwatered': 0, 'yield_units': 1, 'max_lifespan_step': 336, 'fertilized_until_day': -1}",0,0,WATERED
+,49,WEST,(),"(4, 4)",MELON,2751.0,2750.0,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 1, 'watered_today': True, 'consecutive_unwatered': 0, 'yield_units': 1, 'max_lifespan_step': 336, 'fertilized_until_day': -1}","{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 1, 'watered_today': True, 'consecutive_unwatered': 0, 'yield_units': 1, 'max_lifespan_step': 336, 'fertilized_until_day': -1}",0,0,OBSERVED
+,50,NORTH,(),"(3, 4)",,2750.0,2748.0,,,,,OBSERVED
+,51,PLANT,"('MELON',)","(3, 3)",,2748.0,2748.0,,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': False, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}",,,PLANTED
+,52,WATER,(),"(3, 3)",MELON,2748.0,2428.0,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': False, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}","{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}",0,0,WATERED
+,53,EAST,(),"(3, 3)",MELON,2428.0,2428.0,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}","{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}",0,0,OBSERVED
+,54,WATER,(),"(4, 3)",MELON,2428.0,2428.0,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': False, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}","{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}",0,0,WATERED
+,55,NORTH,(),"(4, 3)",MELON,2428.0,2428.0,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}","{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}",0,0,OBSERVED
+,56,WATER,(),"(4, 2)",MELON,2428.0,2428.0,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': False, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}","{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}",0,0,WATERED
+,57,NORTH,(),"(4, 2)",MELON,2428.0,2108.0,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}","{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}",0,0,OBSERVED
+,58,WATER,(),"(4, 1)",MELON,2108.0,2108.0,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': False, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}","{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}",0,0,WATERED
+,59,WEST,(),"(4, 1)",MELON,2108.0,2108.0,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}","{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}",0,0,OBSERVED
+,60,SOUTH,(),"(3, 1)",,2108.0,2108.0,,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': False, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}",,,OBSERVED
+,61,WATER,(),"(3, 2)",MELON,2108.0,1788.0,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': False, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}","{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}",0,0,WATERED
+,62,NORTH,(),"(3, 2)",MELON,1788.0,1788.0,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}","{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}",0,0,OBSERVED
+,63,WATER,(),"(3, 1)",MELON,1788.0,1788.0,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': False, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}","{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}",0,0,WATERED
+,64,NORTH,(),"(3, 1)",MELON,1788.0,1788.0,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}","{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}",0,0,OBSERVED
+,65,WATER,(),"(3, 0)",MELON,1788.0,1468.0,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': False, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}","{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}",0,0,WATERED
+,66,WEST,(),"(3, 0)",MELON,1468.0,1468.0,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}","{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}",0,0,OBSERVED
+,67,WATER,(),"(2, 0)",MELON,1468.0,1468.0,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': False, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}","{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}",0,0,WATERED
+,68,WEST,(),"(2, 0)",MELON,1468.0,1468.0,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}","{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}",0,0,OBSERVED
+,69,WATER,(),"(1, 0)",MELON,1468.0,1468.0,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': False, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}","{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}",0,0,WATERED
+,70,WEST,(),"(1, 0)",MELON,1468.0,1148.0,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}","{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': True, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}",0,0,OBSERVED
+,71,WATER,(),"(0, 0)",MELON,1148.0,1148.0,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': False, 'consecutive_unwatered': 1, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}","{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': False, 'consecutive_unwatered': 0, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}",0,0,WATERED
+,72,WATER,(),"(4, 4)",MELON,1148.0,1147.0,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 1, 'watered_today': False, 'consecutive_unwatered': 0, 'yield_units': 1, 'max_lifespan_step': 336, 'fertilized_until_day': -1}","{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 1, 'watered_today': True, 'consecutive_unwatered': 0, 'yield_units': 1, 'max_lifespan_step': 336, 'fertilized_until_day': -1}",0,0,WATERED
+,73,NORTH,(),"(4, 4)",MELON,1147.0,1146.0,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 1, 'watered_today': True, 'consecutive_unwatered': 0, 'yield_units': 1, 'max_lifespan_step': 336, 'fertilized_until_day': -1}","{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 1, 'watered_today': True, 'consecutive_unwatered': 0, 'yield_units': 1, 'max_lifespan_step': 336, 'fertilized_until_day': -1}",0,0,OBSERVED
+,74,WATER,(),"(4, 3)",MELON,1146.0,1144.0,"{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': False, 'consecutive_unwatered': 0, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}","{'kind': 'PLANT', 'crop': 'MELON', 'planted_day': 2, 'watered_today': True, 'consecutive_unwatered': 0, 'yield_units': 1, 'max_lifespan_step': 360, 'fertilized_until_day': -1}",0,0,WATERED

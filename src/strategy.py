@@ -1,5 +1,7 @@
-"""StrategicPlanner - V0.5: adds seed-cost discovery rotation across
-all 5 crops (not just MELON), reads costs from the knowledge base."""
+"""StrategicPlanner - V0.6: multi-hand hiring to run several parallel
+MELON cycles at once. Official Object Types table confirms MELON's
+profit/tile/day (~$129.5) dominates every other crop (~6x the next
+best), so we commit hard to MELON rather than rotating crops."""
 
 from typing import Optional
 from src.actions import CROPS
@@ -14,16 +16,18 @@ from src.market_log import log_market
 _FIRST_YIELD_DAY = {"WHEAT": 2, "CARROT": 2, "TOMATO": 8, "STRAWBERRY": 10, "MELON": 10}
 _FALLBACK_SEED_COST = {"MELON": 80, "WHEAT": 10, "CARROT": 10, "TOMATO": 10, "STRAWBERRY": 10}
 
+# Cheap to raise (Fibonacci hire cost resets daily: 1,1,2,3,5...) - start
+# at 3 and watch whether the farmer can actually keep 4 tiles (1 own +
+# 3 hands) watered daily before pushing higher.
+N_HANDS_TARGET = 1
+
 
 def _seed_cost(crop: str) -> float:
     return knowledge.get(f"seed_cost.{crop}") or _FALLBACK_SEED_COST.get(crop, 10)
 
 
-def _crop_needing_cost_discovery(state) -> Optional[str]:
-    for c in CROPS:
-        if knowledge.confidence_of(f"seed_cost.{c}") != CONFIRMED and state.my_money >= _FALLBACK_SEED_COST.get(c, 10):
-            return c
-    return None
+def _dist(a, b):
+    return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
 
 class StrategicPlanner:
@@ -33,49 +37,63 @@ class StrategicPlanner:
         farm = state.my_farm
         log_market(state)
         pos = tuple(state.my_position)
-        n_hands = len(farm.get("hands", []))
+        hands = farm.get("hands", [])
+        n_hands = len(hands)
+        hires_today = farm.get("hires_today", 0)
 
-        # --- MARKET ORDERS: independent of the farmer's physical action -
-        # these ride alongside whatever movement/harvest/water op is chosen
-        # below, instead of competing for a dedicated turn. This is the fix
-        # for SELL starving under constant water/harvest demand.
         market_orders = []
 
+        # --- SELL: independent of farmer's physical action ---
         sellable = sellable_produce(state.my_shed)
         for resource, qty in sellable.items():
             telemetry.record_sale(resource, qty)
             market_orders.append(["SELL", resource, qty])
 
-        if n_hands == 0 and farm.get("hires_today", 0) == 0:
+        # --- HIRE: up to N_HANDS_TARGET per day, nearly free (fib resets daily) ---
+        if n_hands < N_HANDS_TARGET and hires_today < N_HANDS_TARGET:
             market_orders.append(["HIRE"])
 
         empty_tiles = find_empty_tiles(farm)
         plantable_crops = [c for c in CROPS if has_seeds(state.my_seeds, c)]
 
+        # --- BUY_SEED: cover farmer + every hand that might plant this turn.
+        # Per spec: if 2+ units PLANT the same turn with insufficient stock,
+        # NONE succeed - so under-buying isn't just wasteful, it's a total
+        # planting failure for everyone that turn.
         if empty_tiles and not plantable_crops:
-            crop = _crop_needing_cost_discovery(state) or self._best_buyable_crop(state)
-            if crop and can_afford(state.my_money, _seed_cost(crop)):
-                telemetry.seeds_bought += 1
-                market_orders.append(["BUY_SEED", crop, 1])
-                if n_hands > 0 and can_afford(state.my_money, _seed_cost(crop) * 2):
+            crop = "MELON"
+            cost = _seed_cost(crop)
+            slots_needed = 1 + n_hands
+            for i in range(slots_needed):
+                if can_afford(state.my_money, cost * (i + 1)):
+                    telemetry.seeds_bought += 1
                     market_orders.append(["BUY_SEED", crop, 1])
 
-        # --- HAND: plants a second tile (unchanged) ---
-        hand_action = ["PASS"]
+        # --- HANDS: each claims a distinct empty tile to plant MELON,
+        # avoiding both target collisions and the same-turn insufficient-
+        # seed failure mode. ---
+        claimed = set()
+        hand_actions = []
         if n_hands > 0:
-            hand_pos = tuple(farm["hands"][0])
-            if empty_tiles and has_seeds(state.my_seeds, "MELON"):
-                h_target = min(empty_tiles, key=lambda t: abs(t[0]-hand_pos[0]) + abs(t[1]-hand_pos[1]))
-                if hand_pos == h_target:
-                    hand_action = ["PLANT", "MELON"]
-                    telemetry.record_plant("MELON")
+            available_seeds = state.my_seeds.get("MELON", 0)
+            for hpos in hands:
+                hpos = tuple(hpos)
+                avail = [t for t in empty_tiles if t not in claimed]
+                if avail and available_seeds > 0:
+                    h_target = min(avail, key=lambda t: _dist(t, hpos))
+                    if hpos == h_target:
+                        hand_actions.append(["PLANT", "MELON"])
+                        telemetry.record_plant("MELON")
+                        available_seeds -= 1
+                        claimed.add(h_target)
+                    else:
+                        d = direction_toward(hpos, h_target)
+                        hand_actions.append([d] if d else ["PASS"])
+                        claimed.add(h_target)
                 else:
-                    d = direction_toward(hand_pos, h_target)
-                    if d:
-                        hand_action = [d]
-        hand_actions = [hand_action] * n_hands if n_hands else None
+                    hand_actions.append(["PASS"])
 
-        # --- FARMER: physical action priority (unchanged) ---
+        # --- FARMER: physical action priority ---
         harvestable = [
             (x, y, crop_info)
             for x, y, crop_info in find_harvestable_crop_tiles(farm)
@@ -83,18 +101,17 @@ class StrategicPlanner:
             _FIRST_YIELD_DAY.get(crop_info.get("crop"), 999)
         ]
         if harvestable:
-            hx, hy, _c = min(harvestable, key=lambda t: abs(t[0]-pos[0]) + abs(t[1]-pos[1]))
+            hx, hy, _c = min(harvestable, key=lambda t: _dist((t[0], t[1]), pos))
             if pos == (hx, hy):
                 telemetry.crops_harvested += 1
                 return self._farmer_action("HARVEST", market=market_orders, hand_actions=hand_actions)
-            else:
-                d = direction_toward(pos, (hx, hy))
-                if d:
-                    return self._farmer_action(d, market=market_orders, hand_actions=hand_actions)
+            d = direction_toward(pos, (hx, hy))
+            if d:
+                return self._farmer_action(d, market=market_orders, hand_actions=hand_actions)
 
         thirsty = find_thirsty_crop_tiles(farm)
         if thirsty:
-            tx, ty, _c = min(thirsty, key=lambda t: abs(t[0]-pos[0]) + abs(t[1]-pos[1]))
+            tx, ty, _c = min(thirsty, key=lambda t: _dist((t[0], t[1]), pos))
             if pos == (tx, ty):
                 telemetry.water_actions += 1
                 return self._farmer_action("WATER", market=market_orders, hand_actions=hand_actions)
@@ -103,14 +120,16 @@ class StrategicPlanner:
                 return self._farmer_action(d, market=market_orders, hand_actions=hand_actions)
 
         if empty_tiles and plantable_crops:
-            crop = max(plantable_crops, key=lambda c: state.prices.get(c, 0))
-            target = min(empty_tiles, key=lambda t: abs(t[0]-pos[0]) + abs(t[1]-pos[1]))
-            if pos == target:
-                telemetry.record_plant(crop)
-                return self._farmer_action("PLANT", crop, market=market_orders, hand_actions=hand_actions)
-            d = direction_toward(pos, target)
-            if d:
-                return self._farmer_action(d, market=market_orders, hand_actions=hand_actions)
+            farmer_avail = [t for t in empty_tiles if t not in claimed]
+            if farmer_avail:
+                crop = max(plantable_crops, key=lambda c: state.prices.get(c, 0))
+                target = min(farmer_avail, key=lambda t: _dist(t, pos))
+                if pos == target:
+                    telemetry.record_plant(crop)
+                    return self._farmer_action("PLANT", crop, market=market_orders, hand_actions=hand_actions)
+                d = direction_toward(pos, target)
+                if d:
+                    return self._farmer_action(d, market=market_orders, hand_actions=hand_actions)
 
         center = (4, 4)
         if pos != center:
@@ -120,12 +139,5 @@ class StrategicPlanner:
 
         return self._farmer_action("PASS", market=market_orders, hand_actions=hand_actions)
 
-    def _best_buyable_crop(self, state) -> str:
-        from src.economy import best_crop
-        costs = {c: _seed_cost(c) for c in CROPS}
-        return best_crop(state.prices, costs, CROPS)
-
     def _farmer_action(self, op: str, *args, market: Optional[list] = None, hand_actions: Optional[list] = None) -> dict:
         return {"farmer": [op, *args], "hands": hand_actions or [], "market": market or []}
-
-        
